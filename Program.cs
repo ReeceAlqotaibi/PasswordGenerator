@@ -27,6 +27,7 @@ if (int.TryParse(passLength, out _passLength) && (_passLength >= minLength) && (
 * Sets the first four characters of the password to be an uppercase, lowercase, special, and an integer between 0 and 9
 * Sets the remaining characters in the password to a random selection of upper, lower, special, or integer
 * Randomize the order of the password (makes sure the first four characters are not always going to be upper, lower, special, integer - in that order)
+* Check to see if there are any consecutive characters in the password and swap them out for a new random one
 */
 void GeneratePassword(int passwordLength)
 {
@@ -44,8 +45,18 @@ void GeneratePassword(int passwordLength)
     }
 
 
-    var randomized = password.OrderBy(item => random.Next());
+    char[] randomized = (password.OrderBy(item => random.Next())).ToArray();
     password = "";
+    
+    for(int i = 1; i < randomized.Length; i++)
+    {
+        if(randomized[i] == randomized[i-1])
+        {
+            Random rand = new();
+            char[] characterSet = characterSets[rand.Next(characterSets.Count)];
+            randomized[i] = characterSet[rand.Next(characterSet.Length)];
+        }
+    }
 
     foreach(char character in randomized)
     {
