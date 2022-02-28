@@ -20,7 +20,7 @@ string passLength = Console.ReadLine()!;
 if (int.TryParse(passLength, out _passLength) && (_passLength >= minLength) && (_passLength <= maxLength))
 {
     GeneratePassword(_passLength);
-    Console.WriteLine(password.ToString());
+    Console.WriteLine(password);
 }
 
 /* 
