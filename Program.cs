@@ -1,5 +1,4 @@
 ﻿int _passLength;
-string password = "";
 const int minLength = 8;
 const int maxLength = 128;
 
@@ -13,22 +12,20 @@ List<char[]> characterSets = new()
     new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' }
 };
 
-Console.WriteLine("Enter desired password length (must be greater than seven characters):");
-
+Console.WriteLine("Enter desired password length (must be a minimum of eight characters):");
 string passLength = Console.ReadLine()!;
 
 // Validates whether user input is numeric and that the number is greater/less than the minimum or maximum password length
 if (int.TryParse(passLength, out _passLength) && (_passLength >= minLength) && (_passLength <= maxLength))
 {
-    GeneratePassword(_passLength);
-    Console.WriteLine(password);
+    Console.WriteLine(GeneratePassword(_passLength));
 }
 
 
-void GeneratePassword(int passwordLength)
+string GeneratePassword(int passwordLength)
 {
     Random random = new();
-
+    string password = "";
     // Set the first four characters of the password to satisfy requirements: upper, lower, special, numeric
     password += characterSets[0][random.Next(characterSets[0].Length)];
     password += characterSets[1][random.Next(characterSets[1].Length)];
@@ -59,6 +56,6 @@ void GeneratePassword(int passwordLength)
         }
     }
 
-    password = new string(temp_password);
+    return new string(temp_password);
 }
 
