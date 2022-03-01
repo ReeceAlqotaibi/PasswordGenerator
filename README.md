@@ -5,7 +5,7 @@
 1) Must contain an uppercase character
 2) Must contain a lowercase character
 3) Must contain a minimum of one integer between 0-9
-4) Must contain a special character from the following: `!£$%^&*()@~#<>?`
+4) Must contain a special character from the following: `!£$%^&*();:@~#<>,?`
 5) The length must be validated as an integer no less than eight (so the password must be at least eight characters)
 
 **Optional Parameters:**
