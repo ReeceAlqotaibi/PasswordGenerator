@@ -3,6 +3,7 @@ string password = "";
 const int minLength = 8;
 const int maxLength = 128;
 
+//List of character arrays: upper, lower, special, numeric - used for random password creation.
 List<char[]> characterSets = new()
 {
     
@@ -16,51 +17,50 @@ Console.WriteLine("Enter desired password length (must be greater than seven cha
 
 string passLength = Console.ReadLine()!;
 
-// Validates whether user input is an integer and that the integer is greater/less than the minimum or maximum password length
+// Validates whether user input is numeric and that the number is greater/less than the minimum or maximum password length
 if (int.TryParse(passLength, out _passLength) && (_passLength >= minLength) && (_passLength <= maxLength))
 {
     GeneratePassword(_passLength);
     Console.WriteLine(password);
 }
 
-/* 
-* Sets the first four characters of the password to be an uppercase, lowercase, special, and an integer between 0 and 9
-* Sets the remaining characters in the password to a random selection of upper, lower, special, or integer
-* Randomize the order of the password (makes sure the first four characters are not always going to be upper, lower, special, integer - in that order)
-* Check to see if there are any consecutive characters in the password and swap them out for a new random one
-*/
+
 void GeneratePassword(int passwordLength)
 {
     Random random = new();
 
+    // Set the first four characters of the password to satisfy requirements: upper, lower, special, numeric
     password += characterSets[0][random.Next(characterSets[0].Length)];
     password += characterSets[1][random.Next(characterSets[1].Length)];
     password += characterSets[2][random.Next(characterSets[2].Length)];
     password += characterSets[3][random.Next(characterSets[3].Length)];
 
+    // In each iteration, choose a random character set from the list <characterSets> 
+    // Set the remaining characters of the password to a random character from the character set
     for (int i = 4; i < passwordLength; i++)
     {
         char[] characterSet = characterSets[random.Next(characterSets.Count)];
         password += characterSet[random.Next(characterSet.Length)];
+
     }
 
-
-    char[] randomized = (password.OrderBy(item => random.Next())).ToArray();
+    // Randomise the order of the password and store in temp variable
+    char[] temp_password = (password.OrderBy(item => random.Next())).ToArray();
+    
     password = "";
     
-    for(int i = 1; i < randomized.Length; i++)
+    // Iterate through the characters of temp password and check if the previous character is the same as the current one
+    // If current and previous are the same, generate a new random character and swap it out with the current
+    for(int i = 1; i < temp_password.Length; i++)
     {
-        if(randomized[i] == randomized[i-1])
+        if(temp_password[i] == temp_password[i-1])
         {
             Random rand = new();
             char[] characterSet = characterSets[rand.Next(characterSets.Count)];
-            randomized[i] = characterSet[rand.Next(characterSet.Length)];
+            temp_password[i] = characterSet[rand.Next(characterSet.Length)];
         }
     }
 
-    foreach(char character in randomized)
-    {
-        password += character;
-    }
+    password = new string(temp_password);
 }
 
