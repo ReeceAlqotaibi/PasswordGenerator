@@ -46,9 +46,7 @@ void GeneratePassword(int passwordLength)
 
     // Randomise the order of the password and store in temp variable
     char[] temp_password = (password.OrderBy(item => random.Next())).ToArray();
-    
-    password = "";
-    
+        
     // Iterate through the characters of temp password and check if the previous character is the same as the current one
     // If current and previous are the same, generate a new random character and swap it out with the current
     for(int i = 1; i < temp_password.Length; i++)
